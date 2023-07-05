@@ -27,8 +27,22 @@
     color: white;
     /*margin-left: 4rem;*/
 }
+.line{
+    color: #009e66;
+    font-size: 5rem;
+    margin-left: 15rem
+}
 @media only screen and (max-width: 1074px) {
     .my-image{
         display: none;
+    }
+    .landing{
+        margin-left: 0!important;
+    }
+    .line{
+       margin-left: 1rem;
+    }
+    .button2{
+        margin-bottom: 2rem;
     }
 }
