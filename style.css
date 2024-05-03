@@ -18,7 +18,20 @@ body {
     color: #0056b3!important;
     text-decoration: none;
 }
-
+.sidebar .nav-item:hover{
+    color: #0056b3!important;
+    text-decoration: none!important;
+    cursor: pointer;
+}
+.sidebar .nav-item a:hover{
+    color: #0056b3!important;
+    text-decoration: none!important;
+    cursor: pointer;
+}
+.sidebar .nav-item a{
+    color: #333!important;
+    
+}
 h1 {
     font-size: 24px; /* Large font size for name */
     color: #333; /* Dark gray for text */
