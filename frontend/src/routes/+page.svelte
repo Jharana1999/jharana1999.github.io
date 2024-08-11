@@ -7,8 +7,8 @@
 
 	let email = '';
 	let password = '';
-	let adminEmail = '';
-	let adminPassword = '';
+	let userEmail = '';
+	let userPassword = '';
 	let error = '';
 
 	const handleUserLogin = async (e) => {
@@ -51,12 +51,12 @@
 		isLoading.set(true);
 
 		try {
-			const response = await fetch('http://localhost:3100/api/admin/login', {
+			const response = await fetch('http://localhost:3100/api/login', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ email: adminEmail, password: adminPassword }),
+				body: JSON.stringify({ email: userEmail, password: userPassword }),
 			});
 			const data = await response.json();
 
@@ -65,7 +65,7 @@
 				token.set(data.token);
 				localStorage.setItem('user', JSON.stringify(data.user));
 				localStorage.setItem('token', JSON.stringify(data.token));
-				goto('/admin');
+				goto('/home');
 			} else {
 				error = data.error || 'Login failed.';
 			}
@@ -86,24 +86,25 @@
 
 
 	<!-- New Admin Login -->
-	<h2 class="mt-5">Admin Login</h2>
+	<h2 class="mt-5">Login</h2>
 	<form on:submit={handleAdminLogin} class="w-100" style="max-width: 500px;">
 		<div class="mb-3">
 			<label for="admin-email" class="form-label">Email</label>
-			<input type="email" id="admin-email" bind:value={adminEmail} class="form-control" required />
+			<input type="email" id="admin-email" bind:value={userEmail} class="form-control" required />
 		</div>
 		<div class="mb-3">
 			<label for="admin-password" class="form-label">Password</label>
-			<input type="password" id="admin-password" bind:value={adminPassword} class="form-control" required />
+			<input type="password" id="admin-password" bind:value={userPassword} class="form-control" required />
 		</div>
 		{#if error}
 			<div class="alert alert-danger" role="alert">{error}</div>
 		{/if}
-		<button type="submit" class="btn btn-primary">Login as Admin</button>
+		<button type="submit" class="btn btn-primary">Login</button>
 	</form>
 
 	<!-- Links -->
 	<p class="mt-5">Visit <a href="/login">Login</a> to get started</p>
-	<a class="btn btn-primary mb-3" href="/login">Login</a>
-	<a class="btn btn-primary" href="/login-canvas">Login with Canvas</a>
+	<a class="btn btn-primary mb-3" href="/login-canvas">Login with Canvas</a>
+	<a class="btn btn-primary" href="/login">Login with Admin</a>
+	
 </main>
