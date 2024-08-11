@@ -315,6 +315,31 @@
 			<span class="badge bg-primary text-white">Term: {$course.courseOfferingId.termId.name}</span>
 			<span class="badge bg-primary text-white">Role: {$course.role.toUpperCase()}</span>
 		</div>
+		<label for="">No of passes: </label>
+		<input class="col form-control" type="number" bind:value={$passCount} />
+
+		<label for="">Pass Type: </label>
+		<div class="d-flex">
+			<select
+				required
+				class="form-control mr-2"
+				style="flex:1; margin-right: 1rem;"
+				name="passtype"
+				bind:value={$passTypeId}
+			>
+				{#each passTypes as passType}
+					<option value={passType._id}>{passType.name}</option>
+				{/each}
+			</select>
+			{#if showPassTypeForm}{:else}
+				<button
+					on:click={() => {
+						showPassTypeForm = !showPassTypeForm;
+					}}
+					class="btn btn-primary ml-2">Add New Pass Type</button
+				>
+			{/if}
+		</div>
 
 		{#if showPassTypeForm}
 			<h5>Create new Pass Type</h5>
