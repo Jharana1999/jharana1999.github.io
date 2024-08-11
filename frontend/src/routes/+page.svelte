@@ -118,7 +118,7 @@
 			</div>
 			<div class="col-md-8 h-full d-flex flex-column justify-content-center align-items-center">
 				<div class="text-center">
-					<h5>EGP-BROKER</h5>
+					<h5>Login to EGP-BROKER</h5>
 					<p class="text-muted"></p>
 				</div>
 				<form on:submit={handleAdminLogin} class="form-group">
@@ -134,14 +134,14 @@
 						required
 					/>
 
-					<button class="btn btn-primary" type="submit">Login</button>
+					<button class="btn btn-primary mt-2" type="submit">Login</button>
 
 				</form>
 				<!-- <button on:click={redirectToCanvasAuth}>Login with canvas</button> -->
 
 				<p class="mt-5">Visit <a href="/login">Login</a> to get started</p>
 				<a class="btn btn-primary mb-3" href="/login-canvas">Login with Canvas</a>
-				<a class="btn btn-primary" href="/login">Login with Admin</a>
+				<a class="btn btn-primary" href="/login">Login As Admin</a>
 
 
 				{#if errorMessage}
