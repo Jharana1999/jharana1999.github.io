@@ -2,25 +2,26 @@ version: '3.8'
 
 services:
   frontend:
-    build:
-      context: ./frontend
+    build:      
       dockerfile: Dockerfile.frontend
-    image: egp-frontend
+      context: ./frontend
+    container_name: frontend
     ports:
-      - "3000:5173"
+      - "5173:5173"
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - .:/app
+      - /app/frontend/node_modules
     environment:
       - NODE_ENV=development
     networks:
       - my-shared-network
+    restart: always
 
   backend:
-    build:
-      context: ./backend
+    build:      
       dockerfile: Dockerfile.backend
-    image: egp-backend
+      context: ./backend
+    container_name: backend
     ports:
       - "3001:3000"
     volumes:
@@ -35,7 +36,7 @@ services:
       - MONGO_URL=mongodb://root:rootpassword@mongodb:27017/freepassdb?authSource=admin
       - JWT_SECRET=your_jwt_secret
       - DEV_MODE=true
-      - PORT=3001
+      - PORT=3000
       - CANVAS_URL=http://web:3000
       - PLATFORM_NAME=Canvas LMS
       - CLIENT_ID=10000000000001
@@ -74,6 +75,19 @@ services:
       ME_CONFIG_MONGODB_SERVER: mongodb
     depends_on:
       - mongodb
+    networks:
+      - my-shared-network
+
+  nginx-proxy:
+    build:
+      dockerfile: Dockerfile
+      context: ./proxy
+    restart: always
+    depends_on:
+      - frontend
+      - backend
+    ports:
+      - "3000:80"
     networks:
       - my-shared-network
 

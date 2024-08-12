@@ -22,24 +22,24 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.oauth = new OAuthServer({
-  model: model,
-  grants: ['password'],
-  debug: true
+    model: model,
+    grants: ['password'],
+    debug: true
 });
 
 app.post('/oauth/token', (req, res, next) => {
     console.log('Token request received:', req.body);
     return app.oauth.token()(req, res, next);
-  });
+});
 
 app.get('/secure', app.oauth.authenticate(), (req, res) => {
-  res.send('Secured with OAuth!');
+    res.send('Secured with OAuth!');
 });
 // Routes
 app.use(freePassRoutes);
 app.use('/api', coreRoutes);
-app.use('/api/admin',adminRoutes);
-app.use('/api/tool',toolRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/tool', toolRoutes);
 
 app.use('/api/lti', ltiRoutes);
 
@@ -66,6 +66,6 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`Backend service listening at http://localhost:${port}`);
 });
