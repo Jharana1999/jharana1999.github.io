@@ -345,8 +345,8 @@
 			<span class="badge bg-primary text-white">Term: {$course.courseOfferingId.termId.name}</span>
 			<span class="badge bg-primary text-white">Role: {$course.role.toUpperCase()}</span>
 		</div>
-		<!-- <label for="">No of passes: </label>
-		<input class="col form-control" type="number" bind:value={$passCount} /> -->
+		<label for="">No of passes: </label>
+		<input class="col form-control" type="number" bind:value={$passCount} />
 
 		<!-- <label for="">Pass Type: </label> -->
 		<div class="d-flex mt-2">
