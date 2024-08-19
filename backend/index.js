@@ -27,24 +27,24 @@ app.oauth = new OAuthServer({
     debug: true
 });
 
-app.post('/oauth/token', (req, res, next) => {
+app.post('/egp-broker-service/oauth/token', (req, res, next) => {
     console.log('Token request received:', req.body);
     return app.oauth.token()(req, res, next);
 });
 
-app.get('/secure', app.oauth.authenticate(), (req, res) => {
+app.get('/egp-broker-service/secure', app.oauth.authenticate(), (req, res) => {
     res.send('Secured with OAuth!');
 });
 // Routes
-app.use(freePassRoutes);
-app.use('/api', coreRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/tool', toolRoutes);
+app.use('/egp-broker-service', freePassRoutes);
+app.use('/egp-broker-service/api', coreRoutes);
+app.use('/egp-broker-service/api/admin', adminRoutes);
+app.use('/egp-broker-service/api/tool', toolRoutes);
 
-app.use('/api/lti', ltiRoutes);
+app.use('/egp-broker-service/api/lti', ltiRoutes);
 
 // Seed Database route
-app.post('/api/seed', authenticateSeedKey, async (req, res) => {
+app.post('/egp-broker-service/api/seed', authenticateSeedKey, async (req, res) => {
     try {
         await dropDatabaseAndSeed();
         res.send('Database seeded');
@@ -56,16 +56,32 @@ app.post('/api/seed', authenticateSeedKey, async (req, res) => {
 // Connect to MongoDB
 connectWithRetry();
 
+const jwk = {
+    "kty": "RSA",
+    "e": "AQAB",
+    "use": "sig",
+    "n": "qlv5ttGvzU3cVX0V1katJBnHlAMWl-9lYWc2ntgv865v9Nsj_tPymEteMTVorCkRU0jvKMi4rUMohBGFdd8IMBBRoCk--N3tP7DkbHmiCVTliBNCPOL7gj7EYK44wTkcTevftKZhXHIONk_vejIymRZwcOijfjIqE_n0AvCR3KMhZFiaMZHLfTg76rx24tSX1hKnMCM9tyrF9SIISE_EGldGfUzpGUU4HsHdL1HsPfhik6qxB9th6IqeYKOiVCPUesyIKWg4GhsycczPE1lLDkIzscb3SYcNVxcb61iaeCnBQ-ib0uyP78SxD9sjMhAuRVw5fC2366cLAolOuWGvOw"
+};
+
+// Serve the JWKS at the well-known endpoint
+app.get('/egp-broker-service/.well-known/jwks.json', (req, res) => {
+    res.json({
+        keys: [jwk]
+    });
+});
+
 // Health check
-app.get('/', async (req, res) => {
+app.get('/egp-broker-service', async (req, res) => {
     try {
         await mongoose.connection.db.command({ ping: 1 });
-        res.send('OK');
+        res.send('OK! Working!');
     } catch (error) {
         res.status(500).send('Database connection failed');
     }
 });
 
-app.listen(port, '0.0.0.0', () => {
+//app.use('/egp-broker-service', app);
+
+app.listen(port, () => {
     console.log(`Backend service listening at http://localhost:${port}`);
 });
