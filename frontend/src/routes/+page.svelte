@@ -1,173 +1,111 @@
 <script>
-	import { onMount } from 'svelte';
 	import 'bootstrap/dist/css/bootstrap.min.css';
 	import '/src/styles/global.css';
-	import { user, token, isLoading } from '../stores';
+	import { writable } from 'svelte/store';
 	import { goto } from '$app/navigation';
-	import AuthMaster from '../layouts/AuthMaster.svelte';
+	import axios from 'axios';
+	const token = writable(null);
+	const user = writable(null);
 
 	let email = '';
 	let password = '';
-	let userEmail = '';
-	let userPassword = '';
-	let error = '';
 	let errorMessage = '';
 
-	const handleUserLogin = async (e) => {
-		e.preventDefault();
-		isLoading.set(true);
-
+	const login = async () => {
 		try {
-			const response = await fetch('https://egp-broker.cs.vt.edu/egp-broker-service/api/user/login', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ email, password }),
-			});
-			const data = await response.json();
+			const response = await axios.post('https://egp-broker.cs.vt.edu/egp-broker-service/api/login', { email, password });
+			
+			// Store user and token in local storage
+			localStorage.setItem('user', JSON.stringify(response.data.user));
+			localStorage.setItem('token', JSON.stringify(response.data.token));
 
-			if (response.ok) {
-				user.set(data.user);
-				token.set(data.token);
-				localStorage.setItem('user', JSON.stringify(data.user));
-				localStorage.setItem('token', JSON.stringify(data.token));
-				if ($user?.role === 'instructor') {
-					goto('/instructor/home');
-				} else {
-					goto('/student/home');
-				}
+			// Set user and token in the store
+			user.set(response.data.user);
+			token.set(response.data.token);
+			
+			// Check the user's role and navigate accordingly
+			const { role } = response.data.user;
+			if (role === 'admin') {
+				goto('/admin/dashboard');
 			} else {
-				error = data.error || 'Login failed.';
-			}
-		} catch (err) {
-			console.error(err);
-			error = 'An error occurred during login.';
-		} finally {
-			isLoading.set(false);
-		}
-	};
-
-	const handleAdminLogin = async (e) => {
-		e.preventDefault();
-		isLoading.set(true);
-
-		try {
-			const response = await fetch('https://egp-broker.cs.vt.edu/egp-broker-service/api/login', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ email: userEmail, password: userPassword }),
-			});
-			const data = await response.json();
-
-			if (response.ok) {
-				user.set(data.user);
-				token.set(data.token);
-				localStorage.setItem('user', JSON.stringify(data.user));
-				localStorage.setItem('token', JSON.stringify(data.token));
 				goto('/home');
-			} else {
-				error = data.error || 'Login failed.';
 			}
-		} catch (err) {
-			console.error(err);
-			error = 'An error occurred during login.';
-		} finally {
-			isLoading.set(false);
+		} catch (error) {
+			errorMessage = error.response?.data?.error || 'Login failed';
 		}
 	};
 </script>
-<!-- 
-<main
-		style="height: 100vh; margin-top: 20vh"
-		class="container d-flex flex-column h-100 align-items-center justify-content-center"
->
-	<h1>Welcome to Pass Management</h1>
 
-	<h2 class="mt-5">Login</h2>
-	<form on:submit={handleAdminLogin} class="w-100" style="max-width: 500px;">
-		<div class="mb-3">
-			<label for="admin-email" class="form-label">Email</label>
-			<input type="email" id="admin-email" bind:value={userEmail} class="form-control" required />
-		</div>
-		<div class="mb-3">
-			<label for="admin-password" class="form-label">Password</label>
-			<input type="password" id="admin-password" bind:value={userPassword} class="form-control" required />
-		</div>
-		{#if error}
-			<div class="alert alert-danger" role="alert">{error}</div>
-		{/if}
-		<button type="submit" class="btn btn-primary">Login</button>
-	</form>
-
-	<p class="mt-5">Visit <a href="/login">Login</a> to get started</p>
-	<a class="btn btn-primary mb-3" href="/login-canvas">Login with Canvas</a>
-	<a class="btn btn-primary" href="/login">Login with Admin</a>
-	
-</main>
- -->
-
- <AuthMaster>
-	<div class="">
-		<div class="row ">
-			<div class="col-md-4 h-full bg-signin text-center text-white p-5 gap-2">
-				<h3>EGP-BROKER</h3>
-				<p></p>
-			</div>
-			<div class="col-md-8 h-full d-flex flex-column justify-content-center align-items-center">
-				<div class="text-center">
-					<h5>Login to EGP-BROKER</h5>
-					<p class="text-muted"></p>
-				</div>
-				<form on:submit={handleAdminLogin} class="form-group">
-					<label for="email">Email:</label>
-					<input class="form-control" id="email" type="email" bind:value={userEmail} required />
-
-					<label for="password">Password:</label>
-					<input
-						class="form-control"
-						id="password"
-						type="password"
-						bind:value={userPassword}
-						required
-					/>
-
-					<button class="btn btn-primary mt-2" type="submit">Login</button>
-
-				</form>
-				<!-- <button on:click={redirectToCanvasAuth}>Login with canvas</button> -->
-
-				<p class="mt-5">Visit <a href="/login">Login</a> to get started</p>
-				<a class="btn btn-primary mb-3" href="/login-canvas">Login with Canvas</a>
-				<a class="btn btn-primary" href="/login">Login As Admin</a>
-
-
-				{#if errorMessage}
-					<p style="color: red;">{errorMessage}</p>
-				{/if}
-			</div>
-		</div>
+<div class="d-flex vh-100">
+	<div class="flex-first d-none d-md-flex">
+		<p>EGP Broker</p>
 	</div>
-</AuthMaster>
+	<main class="flex-second container d-flex flex-column align-items-center justify-content-center">
+		<div class="">
+			<h1 class="mb-4">Login to EGP-BROKER</h1>
+			<form class="w-100" on:submit|preventDefault={login}>
+				<div class="form-group mb-3">
+					<label for="email">Email:</label>
+					<input class="form-control" id="email" type="email" bind:value={email} required />
+				</div>
+				<div class="form-group mb-4">
+					<label for="password">Password:</label>
+					<input class="form-control" id="password" type="password" bind:value={password} required />
+				</div>
+					<button class="btn block btn-primary btn-block mb-3" type="submit">Login</button>
+			</form>
+			<a class="btn block btn-outline-primary btn-block" href="/login-canvas">Login with Canvas</a>
+
+			{#if errorMessage}
+				<p class="text-danger mt-3">{errorMessage}</p>
+			{/if}
+		</div>
+	</main>
+</div>
 
 <style>
-	.bg-signin {
+	.flex-first {
+		display: flex;
+		width: 400px;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		text-align: center;
 		background-color: navy;
-		background-size: cover;
+	}
+	.flex-first p {
+		font-size: 32px;
+		letter-spacing: 2px;
+		font-weight: bold;
+		margin: 0;
+	}
+
+
+	.flex-second {
+		flex: 1;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		flex-direction: column;
+		background-color: #f8f9fa;
+		padding: 20px;
 	}
 
-	@media (max-width: 768px) {
-		.bg-signin{
+	form {
+		width: 100%;
+	}
+
+	h1, h5 {
+		color: #343a40;
+	}
+
+
+
+	@media (max-width: 767.98px) {
+		.flex-first {
 			display: none;
 		}
-	}
-	@media only screen and (max-width: 600px) {
-
+		.flex-second {
+			width: 100%;
+		}
 	}
 </style>

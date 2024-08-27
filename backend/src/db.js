@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { seedDatabase } = require('./seeder');
 
 const connectWithRetry = async () => {
-    //const mongoURI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?authSource=admin`;
+    // const mongoURI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?authSource=admin`;
     const mongoURI = `mongodb://${process.env.MONGODB_HOST}/asdfdb?authSource=admin`;
     try {
         await mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
