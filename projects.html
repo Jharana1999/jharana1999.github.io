@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jharana Sapkota - Projects</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="index.html">About</a>
+                    <a class="nav-link active" aria-current="page" href="projects.html">Projects</a>
+                    <a class="nav-link" href="certifications.html">Certifications</a>
+                    <a class="nav-link" href="cv.html">CV</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+    </div>
+
+    <div class="container pt-5">
+        <div class="projects mt-5">
+            <h1 style="font-weight: bold;">PROJECTS</h1>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="mt-3">
+                        <strong>HFEE - Help for Entrance Exam:</strong> HFEE is a complete application for Medical, Paramedical, Engineering,
+                        and Applied Science programs entrance exam preparation. <br>
+
+                        <b>Responsibilities: </b><br>
+                        • Developed Core Features<br>
+                        • API Integration<br>
+                        • Testing and Debugging<br>
+                        • Ads Implementation
+                        <br>
+                        <a href="https://play.google.com/store/apps/details?id=com.helpforentranceexam.app&hl=en&gl=US" target="_blank">View HFEE on Google Play</a>.
+                    </p>
+                    <p>
+                        <strong>Aayo </strong>  Aayo is the ride sharing application to manage transportation issues in Pokhara Valley. <br>
+                        <b>Responsibilities: </b><br>
+                        • Developed Core Features<br>
+                        • API Integration <br>
+                        <a href="https://play.google.com/store/apps/details?id=app.aayo.ride&pcampaignid=web_share" target="_blank">View Aayo on Google Play</a>.
+                    </p>
+                    <p>
+                        <strong>Bhoklayo</strong> Bhoklayo is the food delivery app for Pokhara Valley.<br>
+                        Responsibilities:<br>
+                        • Developed Core Features<br>
+                        • API Integration<br>
+                        <a href="https://play.google.com/store/apps/details?id=com.bhoklayo.android" target="_blank">View Bhoklayo on Google Play</a>.
+                    </p>
+                    <p>
+                        <strong>Karuna Home Care:</strong> Karuna Home Care is an online health service providing mobile application that
+                        allows online booking of nurses, health assistants and other medical staffs. <br>
+                        <b>Responsibilities:</b><br>
+                        • UI/UX Design<br>
+                        • Developed Core Features<br>
+                        • API Integration<br>
+                        • Street Map Integration <br>
+                        <a href="https://play.google.com/store/apps/details?id=com.karunahomecare.app&hl=en&gl=US" target="_blank">View Karuna Home Care on Google Play</a>.
+                    </p>
+                    <p>
+                        <strong>Ghardurbar:</strong> Ghardurbar is the team of Engineers, Architects, and Realtors for home inspections. <br>
+                       <b>Responsibilities:</b><br>
+                        • UI/UX Design <br>
+                        • Complete Dynamic and Responsive website <br>
+                        <a href="https://ghardurbar.com/" target="_blank">Visit Ghardurbar</a>.
+                    </p>
+                    <p>
+                        <strong>PCH - Paschimanchal Community Hospital:</strong>  PCH is a website for Paschimanchal Community Hospital. <br>
+                        <b>Responsibilities: </b><br>
+                        • UI/UX Design <br>
+                        • Complete Dynamic and Responsive website <br>
+                        <a href="https://www.pch.com.np/" target="_blank">Visit PCH</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    <div class="contact mt-3">
+        <h1 style="font-weight: bold;">CONTACT</h1>
+            <div class="social-icons">
+                <a target="_blank" href="mailto:jharana@vt.edu" class="social-icon">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a target="_blank" href="https://www.instagram.com/ericaitisofc" target="_blank" class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a target="_blank" href="https://www.linkedin.com/in/jharana-sapkota-82b279229/" target="_blank" class="social-icon">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+        </div> 
+
+    </div> 
+    </div>
+    <div class="footer mt-2">
+        <div class="text-center">
+            <p class="text-center">&copy; 2024 Jharana Sapkota. All Rights Reserved.</p>
+        </div>
+    </div>
+    <script>
+        window.onscroll = function () { myFunction(); };
+
+        function myFunction() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            var myBar = document.getElementById("myBar");
+            myBar.style.width = scrolled + "%";
+            if (scrolled > 50) {  // You can adjust this value based on when you want the color to start changing
+                myBar.style.backgroundColor = "#ff69b4";  // Change to pink
+            } else {
+                myBar.style.backgroundColor = "black";  // Stay black
+            }
+        }
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
